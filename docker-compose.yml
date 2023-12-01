@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+    postgres:
+        image: postgres:13.3
+        environment:
+            #POSTGRES_DB: "clients_data"
+            #POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "cldpostgres321"
+        env_file:
+            - .env
+        volumes:
+            - ./data_psg:/var/lib/postgresql/data
+        ports:
+            - "5434:5432"
+            
+    api:
+        build: .
+        command: uvicorn src.main:app --reload --host=0.0.0.0
+        volumes:
+            - .:/src
+        env_file:
+            - .env
+        ports:
+            - "8000:8000"
+              #- "5434:5434"
